@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+ 
+{% block title %}
+Wealth Monitor
+{% endblock %}
+ 
+{% block content %}
+<h1 class="text-center my-5">Holdings Detail</h1>
+<div class="container d-flex justify-content-center align-items-center">
+    <a class="btn btn-outline-info mb-3" href="{{ url_for('add_holdings') }}">Add Holdings</a>
+</div>
+<div class="container">
+    <table class="table table-info table-striped rounded">
+        <thead>
+        <tr>
+            <th scope="col">Sr. No.</th>
+            <th scope="col">Stock Symbol</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Average Price</th>
+        </tr>
+        </thead>
+        {% if not details%}
+        <div class="text-center">
+            <h3 class="my-5">No Records to Display!</h3>
+        </div>
+        {% else %}
+        <tbody>
+            
+            {% for data in details %}
+            
+            <tr>
+                <th scope="row">{{ loop.index0+1 }}</th>
+                <td>{{ data.holding_list }}</td>
+                <td>{{ data.quantity }}</td>
+                <td>{{ data.avgPrice }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        
+    </table>
+    <div class="container d-flex justify-content-center align-items-center">
+        <a class="btn btn-outline-info mb-3 mr-3" href="{{ url_for('portfolio') }}">Portfolio</a>
+        <a class="btn btn-outline-info mb-3" href="{{ url_for('analysis') }}">Analyse</a>
+      </div>
+
+      
+      {% endif %}    
+</div>
+
+{% endblock %}

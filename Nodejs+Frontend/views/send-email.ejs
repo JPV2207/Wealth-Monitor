@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+<!-- Include SweetAlert2 script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<div class="container register-page">
+    <div class="form signup">
+        <span class="title">Password Reset</span>
+        <div class="card-body">
+            <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+                <script>
+                    Swal.fire({
+                        title: '<%= successMessage %>',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                </script>
+            <% } %>
+            <form id="emailForm" action="/reset-password" method="POST">
+                <div class="input-field">
+                    <i class="uil uil-envelope icon"></i>
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-field button">
+                    <input type="submit" value="Send Email">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

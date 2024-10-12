@@ -1,0 +1,28 @@
+{% with msg = get_flashed_messages() %}
+{% if msg %}
+{% for message in msg %}
+<div id="myAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>{{ message }}</strong>
+  <button id="closeButton" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<script>
+  // Wait for the document to load
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the alert element
+    var alert = document.getElementById('myAlert');
+
+    // Set a timeout to hide the alert after 3 seconds
+    setTimeout(function() {
+      // Check if the alert exists (in case it has already been dismissed)
+      if (alert) {
+        // Hide the alert
+        alert.style.display = 'none';
+      }
+    }, 3000); // 3000 milliseconds = 3 seconds
+  });
+</script>
+
+{% endfor %}
+{% endif %}
+{% endwith %}

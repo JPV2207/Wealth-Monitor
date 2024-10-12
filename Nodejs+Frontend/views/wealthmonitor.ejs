@@ -1,0 +1,151 @@
+<!-- index.ejs -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="x-icon" href="wealth.jpg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wealth Monitor | WealthMonitor.com</title>
+    <link rel="stylesheet" href="style-1.css">
+    <link rel="stylesheet" media="screen and (max-width: 1170px)" href="phone.css">
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai|Bree+Serif&display=swap" rel="stylesheet">
+</head> -->
+
+<%- include('partials/header-1') %>
+
+
+<body background="stock2.jpg">
+  <nav id="navbar">
+     <div id="logo">
+         <img src="wealth.jpg" alt="Wealth Monitor">
+     </div>
+     <div class="container">
+         <ul>
+             <li class="item"><a href="https://www.moneycontrol.com/">Finance News</a></li>
+             <li class="item"><a href="#services-container">Analyze PortFolio</a></li>
+             <li class="item"><a href="https://thegeopolitics.com/#google_vignette">GeoPolitics News</a></li>
+             <li class="item"><a href="#contact">Contact Us</a></li>
+         </ul>
+     </div>
+     <button class="login-btn" onclick="location.href='/login-register';">Login/Register</button>
+ </nav>
+
+
+    <section id="home">
+    <h1 class="h-primary">Review Portfolio</h1>
+    <p>It's time to take control of your investments</p>
+    <button class="btn" id="analyzeButton">Analyze Now</button>
+   </section>
+
+
+    <section id="services-container">
+        <h1 class="h-primary center">Our Services</h1>
+        <div id="services">
+            <div class="box">
+                <img src="img/1.png" alt="">
+                <h2 class="h-secondary center">PortFolio Analyzer</h2>
+                <p class="center">Our Wealth Monitor will help you to analyze your PortFolio according to the weightage of the stocks  </p>
+            </div>
+            <div class="box">
+                <img` src="img/2.png" alt="">
+                <h2 class="h-secondary center">Stock Weightage  </h2>
+                <p class="center">It will help you to find the weightage of the stock like to which sector it belongs how much investments you have made in it .</p>
+            </div>
+            <div class="box">
+                <img src="img/3.png" alt="">
+                <h2 class="h-secondary center">Real Time Price Provider</h2>
+                <p class="center">It will fetch Real time stock Price from National Stock Exchange Or from the Bombay Stock Exchange and will given you Profit of the stock according to the real time value.  </p>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="contact">
+        <h1 class="h-primary center">Contact Us</h1>
+        <div id="contact-box">
+            <form action="" onsubmit="showMessage(); return false;">
+                <div class="form-group">
+                    <label for="name">Name: </label>
+                    <input type="text" name="name" id="name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email: </label>
+                    <input type="email" name="email" id="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number: </label>
+                    <input type="tel" name="phone" id="phone" placeholder="Enter your phone">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message: </label>
+                    <textarea name="message" id="message" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn">
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Contact Us</h3>
+                <p>Email: info@example.com</p>
+                <p>Phone: +123-456-7890</p>
+                <p>Address: 123 Wealth Street, City, Country</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
+                    <li><a href="https://twitter.com/?lang=en-in"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
+                    <li><a href="https://www.linkedin.com/login"><i class="fab fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Wealth Monitor. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+<script>
+    document.getElementById("analyzeButton").addEventListener("click", function() {
+        fetch("/analyze", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({}) // You can pass any data if needed
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log("Email sent for analysis");
+                // Redirect to your friend's Flask page upon successful email sending
+                window.location.href = "http://127.0.0.1:5000";
+            } else {
+                console.error("Failed to send email for analysis");
+            }
+        })
+        .catch(error => {
+            console.error("Error sending email for analysis:", error);
+        });
+    });
+</script>
+
+
+<%- include('partials/footer') %>

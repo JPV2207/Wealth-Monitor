@@ -1,0 +1,68 @@
+<%- include('partials/header') %>
+<!-- Include SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+<div class="container register-page">
+    <div class="form signup">
+        <span class="title">Login</span>
+        <form action="/login" method="POST">
+            <div class="input-field">
+                <input type="email" name="username" placeholder="Enter your email" required>
+                <i class="uil uil-envelope icon"></i>
+            </div>
+            <div class="input-field">
+                <input type="password" name="password" class="password" placeholder="Password" required>
+                <i class="uil uil-lock icon"></i>
+                <i class="uil uil-eye-slash showHidePw"></i>
+            </div>
+
+            <!-- Forgot Password link -->
+            <div class="text-right">
+                <a href="/reset-password" class="forgot-password-link">Forgot Password?</a>
+            </div>
+
+            <div class="input-field button">
+                <input type="submit" value="Login">
+            </div>
+        </form>
+
+        <!-- Sign in with Google option -->
+        <div class="text-center mt-3">
+            <a href="/auth/google" class="btn btn-danger btn-block"><i class="fab fa-google"></i> Sign in with Google</a>
+        </div>
+
+        <div class="login-signup">
+            <span class="text">Don't have an account yet?
+                <a href="/register" class="text login-link">Sign Up Now</a>
+            </span>
+        </div>
+    </div>
+</div>
+
+<script>
+    const pwShowHide = document.querySelectorAll(".showHidePw"),
+          pwFields = document.querySelectorAll(".password");
+
+    pwShowHide.forEach(eyeIcon => {
+        eyeIcon.addEventListener("click", () => {
+            pwFields.forEach(pwField => {
+                if(pwField.type === "password"){
+                    pwField.type = "text";
+                    pwShowHide.forEach(icon => {
+                        icon.classList.replace("uil-eye-slash", "uil-eye");
+                    })
+                } else {
+                    pwField.type = "password";
+                    pwShowHide.forEach(icon => {
+                        icon.classList.replace("uil-eye", "uil-eye-slash");
+                    })
+                }
+            })
+        })
+    })
+</script>
+
+<!-- Include SweetAlert2 script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+<%- include('partials/footer') %>

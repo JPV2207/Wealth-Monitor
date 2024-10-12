@@ -1,0 +1,84 @@
+<%- include('partials/header') %>
+
+<div class="container register-page">
+    <div class="form signup">
+        <span class="title">Register</span>
+        <form action="/register" method="POST">
+            <div class="input-field">
+                <input type="text" name="firstname" placeholder="First Name" required>
+                <i class="uil uil-user icon"></i>
+            </div>
+            <div class="input-field">
+                <input type="text" name="lastname" placeholder="Last Name" required>
+                <i class="uil uil-user icon"></i>
+            </div>
+            <div class="input-field">
+                <input type="email" name="username" placeholder="Enter your email" required>
+                <i class="uil uil-envelope icon"></i>
+            </div>
+            <div class="input-field">
+                <input type="password" name="password" id="password" class="password" placeholder="Password" required>
+                <i class="uil uil-lock icon"></i>
+                <i class="uil uil-eye-slash showHidePw" id="togglePassword" style="cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></i>
+            </div>
+            <div class="input-field">
+                <input type="password" name="confirmPassword" id="confirmPassword" class="password" placeholder="Confirm your password" required>
+                <i class="uil uil-lock icon"></i>
+            </div>
+            <div id="passwordMatchContainer" style="margin-top: -10px;">
+                <span id="passwordMatch"></span>
+            </div>
+            <div class="input-field button">
+                <input type="submit" value="Sign Up" id="submitBtn" disabled>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="/auth/google" class="btn btn-danger btn-block"><i class="fab fa-google"></i> Sign Up with Google</a>
+        </div>
+        <div class="login-signup">
+            <span class="text">Already a member?
+                <a href="/login" class="text login-link">Login Now</a>
+            </span>
+        </div>
+    </div>
+</div>
+
+<script>
+    const togglePassword = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+
+    togglePassword.addEventListener('click', function () {
+        // Toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+
+        // Toggle the eye slash icon
+        this.classList.toggle('uil-eye');
+        this.classList.toggle('uil-eye-slash');
+    });
+
+    const confirmPassword = document.getElementById('confirmPassword');
+    const passwordMatch = document.getElementById('passwordMatch');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function validatePassword() {
+        if (password.value === '' || confirmPassword.value === '') {
+            passwordMatch.innerHTML = '';
+            submitBtn.disabled = true;
+        } else if (password.value !== confirmPassword.value) {
+            passwordMatch.innerHTML = '<i class="uil uil-times-circle error-icon"></i> Passwords do not match';
+            passwordMatch.style.color = 'red';
+            submitBtn.disabled = true;
+        } else {
+            passwordMatch.innerHTML = '<i class="uil uil-check-circle success-icon"></i> Passwords match';
+            passwordMatch.style.color = 'green';
+            submitBtn.disabled = false;
+        }
+    }
+
+    password.addEventListener('input', validatePassword);
+    confirmPassword.addEventListener('input', validatePassword);
+</script>
+
+<%- include('partials/footer') %>

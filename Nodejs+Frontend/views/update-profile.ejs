@@ -1,0 +1,48 @@
+<%- include('partials/header') %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div id="flash-message" class="alert alert-success fade-in" role="alert" style="display: none;">
+        <%- message %>
+      </div>
+      <h2>Update Profile</h2>
+      <form action="/update-profile" method="POST" enctype="multipart/form-data"> <!-- Single form for all updates -->
+        <div class="form-group">
+          <label for="first_name">First Name</label>
+          <input type="text" class="form-control" id="first_name" name="first_name" value="<%= user.first_name %>">
+        </div>
+        <div class="form-group">
+          <label for="last_name">Last Name</label>
+          <input type="text" class="form-control" id="last_name" name="last_name" value="<%= user.last_name %>">
+        </div>
+        <div class="form-group">
+          <label for="profileImage">Profile Image</label>
+          <input type="file" class="form-control-file" id="profileImage" name="profileImage" accept="image/jpg, image/png"> <!-- Remove required attribute -->
+        </div>
+        <button type="submit" class="btn btn-update">Update</button>
+      </form>
+      <script>
+        // Check if there's a flash message to display
+        var flashMessage = document.getElementById('flash-message');
+        if (flashMessage && flashMessage.innerText.trim() !== "") {
+          // Display the flash message with fade-in animation
+          flashMessage.style.display = 'block';
+          flashMessage.classList.add('fade-in');
+          // Automatically hide the flash message after 3 seconds
+          setTimeout(function() {
+            // Hide the flash message with fade-out animation
+            flashMessage.classList.remove('fade-in');
+            flashMessage.classList.add('fade-out');
+            // Remove the flash message from the DOM after animation
+            setTimeout(function() {
+              flashMessage.style.display = 'none';
+            }, 0); // Animation duration + a small delay
+          }, 3000);
+        }
+      </script>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

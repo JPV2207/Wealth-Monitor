@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+ 
+{% block title %}
+Wealth Monitor - Analysis
+{% endblock %}
+ 
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center">
+<h1 class="text-center my-5">Analysis</h1>
+</div>
+<div class="container d-flex justify-content-center align-items-center">
+    <a class="btn btn-outline-info mb-3 mr-3" href="{{ url_for('home') }}">Go to Home</a>
+    <a class="btn btn-outline-info mb-3" href="{{ url_for('portfolio') }}">Go to Portfolio</a>
+</div>
+
+<div class="container">
+    <!-- <h1>portfolio Data</h1> -->
+    <h2>Profit</h2>
+    <div class="bg-info p-2 text-dark bg-opacity-1 rounded">
+        <div class="row">
+        <div class="col">
+        <h3>{{ report.current }}</span></h3>
+        <h5>Current</h5>
+        </div>
+        <div class="col">
+        <h5>Invested: {{ report.invested }}</h5>
+        <h5>Total Profit: {{ report.total_profit }}</h5>
+        <h5>1 Day Return: {{ report._1dreturn }}</h5>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container">
+    
+
+    <table class="table table-info table-striped rounded">
+        <thead>
+          <tr>
+              <th scope="col">Sr. No.</th>
+              <th scope="col">Company</th>
+              <th scope="col">Company Size</th>
+              <th scope="col">Profit</th>
+          </tr>
+          </thead>
+        {% if report.count == 0 %}
+        <div class="text-center">
+            <h3 class="my-5">No Records!</h3>
+        </div>
+        {% else %}
+        <tbody>          
+            {% for company, profit in report.profit.items() | sort(attribute='0') %}
+              
+              <tr>
+                  <th scope="row">{{ loop.index0+1 }}</th>
+                  <td>{{ company }}</td>
+                  <td>{{ report.company_size[company] }}</td>
+                  <td>{{ profit }}</td>
+              </tr>
+              {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+        <div class="row container d-flex justify-content-center align-items-center">
+            <div class="col">
+                <h2>Market Capatilization</h2>
+                <h4>Large Cap {{ report.large_cap }} </h4>
+                <h4>Mid Cap {{ report.mid_cap }} </h4>
+                <h4>Small Cap {{ report.small_cap }} </h4>
+            </div>
+            <div class="col">
+                
+                <div class="col-md-7">
+                    <canvas id="pieChart"></canvas>
+                </div>
+                
+
+            </div>
+        </div>
+    <h2>Sector</h2>
+    <table class="table table-info table-striped rounded">
+        <thead>
+          <tr>
+              <th scope="col">Sr. No.</th>
+              <th scope="col">Sector</th>
+              <th scope="col">Percentage</th>
+          </tr>
+          </thead>
+        {% if report.count == 0 %}
+        <div class="text-center">
+            <h3 class="my-5">No Records!</h3>
+        </div>
+        {% else %}
+        <tbody>          
+            {% for sector, percent in report.sector.items() | custom_sort_numbers | reverse %}
+              
+              <tr>
+                  <th scope="row">{{ loop.index0+1 }}</th>
+                  <td>{{ sector }}</td>
+                  <td>{{ percent | string  + " % " }}</td>
+              </tr>
+              {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+
+    <h2>Industry</h2>
+    <table class="table table-info table-striped rounded">
+        <thead>
+          <tr>
+              <th scope="col">Sr. No.</th>
+              <th scope="col">Industry</th>
+              <th scope="col">Percentage</th>
+          </tr>
+          </thead>
+        {% if report.count == 0 %}
+        <div class="text-center">
+            <h3 class="my-5">No Records!</h3>
+        </div>
+        {% else %}
+        <tbody>          
+            {% for industry, percent in report.industry.items() | custom_sort_numbers | reverse %}
+              
+              <tr>
+                  <th scope="row">{{ loop.index0+1 }}</th>
+                  <td>{{ industry }}</td>
+                  <td>{{ percent | string + " % " }}</td>
+              </tr>
+              {% endfor %}
+        </tbody>
+    
+
+
+
+        {% endif %}      
+    </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('pieChart').getContext('2d');
+            
+            // Fetch report data from Flask using AJAX
+            fetch('/market_cap_data')
+                .then(response => response.json())
+                .then(cap => {
+                    // Convert report data to numeric values
+                    var large_cap = parseFloat(cap.large_cap);
+                    var mid_cap = parseFloat(cap.mid_cap);
+                    var small_cap = parseFloat(cap.small_cap);
+
+                    // Create the pie chart
+                    new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Large Cap (%)', 'Mid Cap (%)', 'Small Cap (%)'],
+                            datasets: [{
+                                label: '',
+                                data: [large_cap, mid_cap, small_cap],
+                                backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(75, 192, 192, 0.6)', 'rgba(153, 102, 255, 0.6)'],
+                                borderColor: ['rgba(54, 162, 235, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { position: 'left' },
+                                
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching report:', error));
+        });
+    </script>
+    
+    
+    
+     
+{% endblock %}

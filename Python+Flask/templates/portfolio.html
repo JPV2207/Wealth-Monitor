@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+ 
+{% block title %}
+Wealth Monitor - Monitor Portfolio
+{% endblock %}
+ 
+{% block content %}
+<h1 class="text-center my-5">Monitor Portfolio</h1>
+<div class="container d-flex justify-content-center align-items-center">
+    <a class="btn btn-outline-info mb-3 mr-3" href="{{ url_for('home') }}">Go to Home</a>
+    <a class="btn btn-outline-info mb-3" href="{{ url_for('analysis') }}">Analyse</a>
+</div>
+
+<!-- JavaScript -->
+<script>
+    //let intervalId; // Variable to hold the interval ID
+    function fetchPortfolioData() {
+        fetch('/portfolio_data')
+            .then(response => response.json())
+            .then(portfolio => {
+                // Update HTML with the parsed portfolio data
+                document.getElementById('totalProfit').innerText = portfolio.total_profit;
+                document.getElementById('1d-return').innerText = portfolio._1dreturn;
+                document.getElementById('current').innerText = portfolio.current;
+                document.getElementById('invested').innerText = portfolio.invested;
+
+                // Display list of companies with their profit
+                // Assuming you have a table element with id 'company-table'
+const companyTable = document.getElementById('company-table');
+// Clear existing table content
+companyTable.innerHTML = '';
+
+// Create table header row
+const headerRow = document.createElement('tr');
+headerRow.innerHTML = '<th>Company</th><th>Current</th><th>1D Return</th><th>Profit</th>';
+companyTable.appendChild(headerRow);
+
+// Iterate through each company-profit pair
+const company = Object.keys(portfolio.profit);
+
+for (let i = 0; i < company.length; i++) {
+    // Create a new table row
+    const row = document.createElement('tr');
+    
+    const stock = company[i]
+    // Create table data cells for company and profit
+    const companyCell = document.createElement('td');
+    companyCell.textContent = stock;
+
+    const currentCell = document.createElement('td');
+    currentCell.textContent = portfolio._1dcurrent[stock];
+
+    const returnCell = document.createElement('td');
+    returnCell.textContent = portfolio._1dprofit[stock];
+    
+    const profitCell = document.createElement('td');
+    profitCell.textContent = portfolio.profit[stock];
+    
+    // Append table data cells to the row
+    row.appendChild(companyCell);
+    row.appendChild(currentCell);
+    row.appendChild(returnCell);
+    row.appendChild(profitCell);
+    
+    // Append the row to the table
+    companyTable.appendChild(row);
+}
+
+            })
+            .catch(error => console.error('Error fetching portfolio data:', error));
+    }
+
+    // Fetch portfolio data initially and then every 5 seconds
+    fetchPortfolioData();
+    setInterval(fetchPortfolioData, 5000); // Fetch every 5 seconds
+</script>
+
+<!-- Your portfolio.html template -->
+<div class="container">
+    <!-- <h1>portfolio Data</h1> -->
+    <div class="bg-info p-2 text-dark bg-opacity-1 rounded">
+        <div class="row">
+        <div class="col">
+        <h3><span id="current"></span></h3>
+        <h5>Current</h5>
+        </div>
+        <div class="col">
+        <h5>Invested: <span id="invested"></span></h5>
+        <h5>Total Profit: <span id="totalProfit"></span></h5>
+        <h5>1 Day Return: <span id="1d-return"></span></h5>
+        </div>
+        </div>
+    </div>
+</div>
+    <div class="container">
+        <!-- <h2>List of Companies and Profits</h2> -->
+        <table id="company-table" class="table table-info table-striped rounded" >
+            
+            <!-- Table content will be inserted here -->
+        </table>
+        
+    </div>
+
+
+
+{% endblock %}

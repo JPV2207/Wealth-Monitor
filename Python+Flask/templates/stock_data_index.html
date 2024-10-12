@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wealth Moniter</title>
+</head>
+<body>
+    <h1>Stock Details</h1>
+    <form action="/" method="POST">
+        <label for="stock_symbol">Enter Stock Symbol:</label>
+        <input type="text" id="stock_symbol" name="stock_symbol">
+        <button type="submit">Submit</button>
+    </form>
+    <p>Symbol: {{ _symbol }}</p>
+    <p>Live Price: {{ live_price }}</p>
+    <p>Market Cap: {{ market_cap }}</p>
+    <p>PE Ratio (TTM): {{ PE }}</p>
+    <p>EPS (TTM): {{ EPS }}</p>
+    <p>Dividend Yield: {{ Dividend_Yield }}</p>
+    <p>52 Weeks Low: {{ _52_Weeks_Low }}</p>
+    <p>52 Weeks High: {{ _52_Weeks_High }}</p>
+    <p>Expert Recommendation: {{ Expert_Recommendation }}</p>
+    <p>No. of Analyst Opinions: {{ No_of_Analyst_Opinions }}</p>
+    <p>Sector: {{ _sector }}</p>
+    <p>Industry: {{ _industry }}</p>
+
+</body>
+</html>

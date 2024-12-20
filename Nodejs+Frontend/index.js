@@ -241,7 +241,7 @@ app.use(passport.initialize());
 
 
 // Route to handle user login
-app.post("/login", (req, res, next) => {
+app.post("/login", (req, res) => {
     console.log("Login request received:", req.body);
     passport.authenticate("local", (err, user, info) => {
         if (err) {
@@ -268,7 +268,7 @@ app.post("/login", (req, res, next) => {
                     res.status(500).json({ message: "Internal Server Error" });
                 });
         });
-    })(req, res, next);
+    })(req, res);
 });
 
 

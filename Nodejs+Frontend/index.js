@@ -228,7 +228,7 @@ passport.use(new LocalStrategy(
     function(email, password, done) {
         // Validate the email and password here
         // Example: Assume the user is authenticated if email and password match
-        if (email === 'user@example.com' && password === 'password') {
+        if (email === usernameField && password === passwordField) {
             return done(null, { email: email });
         } else {
             return done(null, false, { message: 'Invalid credentials' });

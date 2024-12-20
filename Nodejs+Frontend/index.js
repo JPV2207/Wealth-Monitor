@@ -394,7 +394,7 @@ app.get('/reset-password', (req, res) => {
 
 
 // Route to handle the password reset request
-app.post('/reset-password', async (req, res) => {
+app.post('/reset-password', (req, res) => {
   const { email } = req.body;
 
   // Retrieve the email address associated with the provided username from the database

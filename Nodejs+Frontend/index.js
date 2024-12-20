@@ -356,7 +356,7 @@ app.get("/update-profile", (req, res) => {
 
 
 // Route to handle updating user profile
-app.post("/update-profile", upload.single('profileImage'), async (req, res) => {
+app.post("/update-profile", upload.single('profileImage'), (req, res) => {
   if (req.isAuthenticated()) {
     const { first_name, last_name } = req.body;
     let profileImage = req.user.profile_image; // Get the current profile image filename
@@ -368,7 +368,6 @@ app.post("/update-profile", upload.single('profileImage'), async (req, res) => {
       pool.query(query, [first_name, last_name, profileImage, req.user.id], (error) => {
         if (error) {
           console.error("Error updating user profile:", error);
-          req.flash('updateMessage', 'An error occurred while updating your profile.');
           res.redirect("/update-profile");
         } else {
           console.log("User profile updated successfully");
@@ -379,7 +378,6 @@ app.post("/update-profile", upload.single('profileImage'), async (req, res) => {
       });
     } catch (err) {
       console.error("Error updating user profile:", err);
-      req.flash('updateMessage', 'An error occurred while updating your profile.');
       res.redirect("/update-profile");
     }
   } else {

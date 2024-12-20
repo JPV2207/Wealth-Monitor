@@ -328,14 +328,13 @@ app.get("/secrets", (req, res) => {
 
 
 // Route to render the update profile page if the user is authenticated, otherwise redirect to the login page
-app.get("/update-profile", async (req, res) => {
+app.get("/update-profile", (req, res) => {
   if (req.isAuthenticated()) {
     try {
       const query = "SELECT * FROM users WHERE id = ?";
       pool.query(query, [req.user.id], (error, results) => {
         if (error) {
           console.error("Error fetching updated user profile:", error);
-          req.flash('updateMessage', 'An error occurred while fetching your updated profile.');
           res.redirect("/update-profile");
         } else {
           const updatedUser = results[0];
@@ -348,7 +347,6 @@ app.get("/update-profile", async (req, res) => {
       });
     } catch (err) {
       console.error("Error fetching updated user profile:", err);
-      req.flash('updateMessage', 'An error occurred while fetching your updated profile.');
       res.redirect("/update-profile");
     }
   } else {
